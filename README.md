@@ -1,7 +1,7 @@
 # vagrant
 Testbed for Vagrant Scripts and testing for various installations
 
-Pre:
+Pre-installation:
 - Install Oracle VirtualBox
 - Install Vagrant
 
