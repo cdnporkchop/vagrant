@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 IP=$(ip a s eth1 | awk '/inet / {print $2}' | sed -e 's/\/..//g')
 DEFAULT_PORT=15672
-DEFAULT_USR=rabbitmq
-DEFAULT_PWD=rabbitmq
+DEFAULT_USR=admin
+DEFAULT_PWD=password
 RABBITMQ_DEB=rabbitmq-server_3.5.4-1_all.deb
-RABBITMQ_URL='http://www.rabbitmq.com/releases/rabbitmq-server/v3.5.4/$RABBITMQ_DEB'
+RABBITMQ_URL='http://www.rabbitmq.com/releases/rabbitmq-server/v3.5.4/rabbitmq-server_3.5.4-1_all.deb'
 
 
 apt-get update
@@ -22,7 +22,7 @@ rm $RABBITMQ_DEB
 #Configure it so default can login from remote, or just add a new admin user
 sudo gunzip /usr/share/doc/rabbitmq-server/rabbitmq.config.example.gz > /etc/rabbitmq/rabbitmq.config
 echo '[{rabbit, [{loopback_users, []}]}].' >> /etc/rabbitmq/rabbitmq.config
-echo 'NODENAME=@DEFAULT_USR@$IP' >> /etc/rabbitmq/rabbitmq.config
+#echo NODENAME=$DEFAULT_USR@$IP > /etc/rabbitmq/rabbitmq.config
 
 rabbitmq-plugins enable rabbitmq_management
 service rabbitmq-server restart
