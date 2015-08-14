@@ -27,17 +27,12 @@ sudo apt-get install -y mongodb-org
 #echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
 #echo "mongodb-org-tools hold" | sudo dpkg --set-selections
 
-
 #Comment out the bind_ip configuration set that defaults to bind_ip = 127.0.0.1
 sudo service mongod stop
 sudo sed -i 's/bind_ip/#bind_ip/g' /etc/mongod.conf
 
 #Start MongoDB.
 sudo service mongod start
-#
-#$ sudo mkdir -p /data/db
-#$ sudo chmod -R 755 /data/db
-
 
 #Remind you what the IP of the Vagrant is and Default port
 echo MongoDB @: "${IP}:${DEFAULT_PORT}"
