@@ -16,11 +16,15 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
   
   #config.vm.provision :shell, path: "./provision/debian/splunk.sh", preserve_order: true
-  #config.vm.provision :shell, path: "./provision/debian/rabbitmq.sh", preserve_order: true
-  #config.vm.provision :shell, path: "./provision/debian/nodejs.sh", preserve_order: true
-  #config.vm.provision :shell, path: "./provision/debian/redis.sh", preserve_order: true
+  config.vm.provision :shell, path: "./provision/debian/rabbitmq.sh", preserve_order: true
+  ###config.vm.provision :shell, path: "./provision/debian/MEANstack.sh", preserve_order: true 
+  config.vm.provision :shell, path: "./provision/debian/redis.sh", preserve_order: true
   #config.vm.provision :shell, path: "./provision/debian/jenkins-ci.sh", preserve_order: true
   config.vm.provision :shell, path: "./provision/debian/MongoDB.sh", preserve_order: true
+  config.vm.provision :shell, path: "./provision/debian/nodejs.sh", preserve_order: true
+  config.vm.provision :shell, inline: "npm install express"
+  config.vm.provision :shell, inline: "npm install sails"
+  
     
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -69,6 +73,7 @@ Vagrant.configure(2) do |config|
     vb.gui = true
 	vb.cpus = 2
     vb.memory = "2048"
+	vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
   end
 
   # Enable provisioning with a shell script. Additional provisioners such as

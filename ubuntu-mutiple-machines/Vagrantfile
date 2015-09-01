@@ -1,0 +1,83 @@
+Vagrant.configure(2) do |config|
+	# Turn off shared folders
+	config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+  
+  #Messing around, spin up a vagrant per technology stack.
+  
+  #Splunk
+  config.vm.define :splunk do |splunk|
+	splunk.vm.box = "ubuntu/trusty64"	
+	splunk.vm.hostname = "ubuntu-splunk"
+		splunk.vm.provider "virtualbox" do |vb|
+			vb.name = "SplunkBuntu"
+			vb.gui = true
+			vb.cpus = 1
+			vb.memory = "512"
+			vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+		end
+	splunk.vm.provision :shell, path: "./provision/debian/splunk.sh", preserve_order: true
+	splunk.vm.network :private_network, ip: "192.168.76.6"	  
+  end
+  
+  #RabbitMQ
+  config.vm.define "rabbitmq" do |rabbitmq|
+	rabbitmq.vm.box = "ubuntu/trusty64"	
+	rabbitmq.vm.hostname = "ubuntu-rabbit"
+		rabbitmq.vm.provider "virtualbox" do |vb|
+			vb.name = "RabbitBuntu"
+			vb.gui = true
+			vb.cpus = 1
+			vb.memory = "512"
+			vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+		end
+	rabbitmq.vm.provision :shell, path: "./provision/debian/rabbitmq.sh", preserve_order: true
+	rabbitmq.vm.network :private_network, ip: "192.168.76.7"	  
+  end
+  
+  #Redis
+    config.vm.define "redis" do |redis|
+	redis.vm.box = "ubuntu/trusty64"	
+	redis.vm.hostname = "ubuntu-redis"
+		redis.vm.provider "virtualbox" do |vb|
+			vb.name = "RedisBuntu"
+			vb.gui = true
+			vb.cpus = 1
+			vb.memory = "512"
+			vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+		end
+	redis.vm.provision :shell, path: "./provision/debian/redis.sh", preserve_order: true
+	redis.vm.network :private_network, ip: "192.168.76.8"	  
+  end
+
+	#MongoDB
+    config.vm.define "mongodb" do |mongodb|
+	mongodb.vm.box = "ubuntu/trusty64"	
+	mongodb.vm.hostname = "ubuntu-mongodb"
+		mongodb.vm.provider "virtualbox" do |vb|
+			vb.name = "MongoBuntu"
+			vb.gui = true
+			vb.cpus = 1
+			vb.memory = "512"
+			vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+		end
+	mongodb.vm.provision :shell, path: "./provision/debian/MongoDB.sh", preserve_order: true
+	mongodb.vm.network :private_network, ip: "192.168.76.9"	  
+  end
+
+  #Node.js w/ Sails.js
+  config.vm.define "nodejs" do |nodejs|
+	nodejs.vm.box = "ubuntu/trusty64"	
+	nodejs.vm.hostname = "ubuntu-nodejs"
+		nodejs.vm.provider "virtualbox" do |vb|
+			vb.name = "NodeBuntu"
+			vb.gui = true
+			vb.cpus = 1
+			vb.memory = "512"
+			vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+		end
+	nodejs.vm.provision :shell, path: "./provision/debian/nodejs.sh", preserve_order: true
+	nodejs.vm.provision :shell, inline: "sudo npm install -g sails"
+	nodejs.vm.network :private_network, ip: "192.168.76.10"	  
+  end
+ 
+end
